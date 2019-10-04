@@ -1,7 +1,7 @@
-import serial as s
-from serial import SerialException
 import logging
 import os
+import serial as Serial
+from serial import SerialException
 
 
 COMMANDS = {
@@ -17,6 +17,7 @@ COMMANDS = {
     "manufacturer": "H?",
     "error_status": "E?"
     }
+    
 class ThorlabsDC4100:
     def __init__(self,port,baudrate,timeout):
         self.port = port
@@ -25,7 +26,13 @@ class ThorlabsDC4100:
         self.dev = None
         self.escape = '\n\n'
         self.read_buffer = []
-
+    
+    def connect_device(self):
+        try:
+            self.dev = Serial(port=self.port,baudrate=self.baudrate,timeout=self.timeout)
+        except SerialException:
+            logging.error("Device connection could not be established")
+            
     def led_on(self, channel: int):
         self._write_to_LED(COMMANDS["led_on"].format(channel))
     
@@ -57,12 +64,6 @@ class ThorlabsDC4100:
     def manufacturer(self):
         self._write_to_LED(COMMANDS["manufacturer"])
         return self._read_from_LED()
-     
-    def connect_device(self):
-        try:
-            self.dev = s.Serial(port=self.port,baudrate=self.baudrate,timeout=self.timeout)
-        except SerialException:
-            logging.error("Device connection could not be established")
 
     def _write_to_LED(self, command: str):
         self.dev.write(f"{command} {self.escape}".encode())
