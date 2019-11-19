@@ -5,15 +5,17 @@ from __future__ import print_function
 
 import os, sys, struct, ctypes, time, threading
 import numpy as np
-os.environ['PATH'] += ";C:\\Program Files (x86)\\PI Engineering\\P.I. Engineering SDK\\DLLs"
 
 # Delay loading PIEHid--this is only supported in 32-bit, and it helps multiprocessing to have this module
 # be importable on 64-bit (so we have access to PIEException)
 _pielib = None
+
 def pielib():
     global _pielib
     if _pielib is None:
-        _pielib = ctypes.windll.PIEHid
+        # _pielib = ctypes.windll.PIEHid64
+        dll_location = os.path.dirname( __file__ )
+        _pielib = ctypes.windll.LoadLibrary( os.path.join( dll_location, "PIEHid64") )
     return _pielib
 
 
@@ -21,16 +23,16 @@ def pielib():
 # 4 of them are actually used by the library (???)
 class TEnumHIDInfo(ctypes.Structure):
     _fields_ = [
-        ("PID", ctypes.c_uint32),
-        ("Usage", ctypes.c_uint32),
-        ("UP", ctypes.c_uint32),
-        # ("readSize", ctypes.c_long),
-        # ("writeSize", ctypes.c_long),
-        # ("DevicePath", ctypes.c_char*256),
-        ("Handle", ctypes.c_uint32),
-        # ("Version", ctypes.c_uint32),
-        # ("ManufacturerString", ctypes.c_char*128),
-        # ("ProductString", ctypes.c_char*128),
+        ("PID", ctypes.wintypes.DWORD  ),
+        ("Usage", ctypes.wintypes.DWORD),
+        ("UP", ctypes.wintypes.DWORD),
+        ("readSize", ctypes.c_long),
+        ("writeSize", ctypes.c_long),
+        ("DevicePath", ctypes.c_char*256),
+        ("Handle", ctypes.wintypes.DWORD),
+        ("Version", ctypes.wintypes.DWORD),
+        ("ManufacturerString", ctypes.c_char*128),
+        ("ProductString", ctypes.c_char*128),
     ]
 
 
@@ -120,6 +122,10 @@ errorStrings = {
 devicePIDs = {
     1062: 'XK12JS',
     1064: 'XK12JS',
+    1121: 'XK60',
+    1122: 'XK60',
+    1123: 'XK60',
+    1254: 'XK60',
     1227: 'XKE128',
     1228: 'XKE128',
     1229: 'XKE128',
@@ -130,6 +136,7 @@ devicePIDs = {
 # Maps device key to device name
 deviceNames = {
     'XK12JS': 'XK-12 Jog & Shuttle',
+    'XK60'  : 'XK-60',
     'XKE128': 'XKE-128',
 }
 
@@ -138,6 +145,7 @@ deviceNames = {
 capabilityKeys = ['rows', 'columns', 'joysticks', 'jog/shuttle', 'touchpad']
 deviceCapabilities = {
     'XK12JS': (3, 4, 0, True, False),
+    'XK60'  : (8, 10, 0, False, False),
     'XKE128': (8, 16, 0, False, False),
 }
 
@@ -394,6 +402,13 @@ class XKeysDevice(object):
         keybytes = np.array([list(bytearray(data[2:2+cols]))])
         keys = (self._keymask & keybytes).astype(bool)
         return {'keys': keys}
+
+    def _unpackEventData_XK60(self, data):
+        rows, cols = self.keyshape
+        keybytes = np.array([list(bytearray(data[2:2+cols]))])
+        keys = (self._keymask & keybytes).astype(bool)
+        return {'keys': keys}
+
 
     def _handleData(self, data):
         """Update the known device state from *data* and return a summary of state
