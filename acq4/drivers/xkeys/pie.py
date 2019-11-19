@@ -3,7 +3,7 @@
 # import acq4.util.clibrary as clib
 from __future__ import print_function
 
-import os, sys, struct, ctypes, time, threading
+import os, sys, struct, ctypes, ctypes.wintypes, time, threading
 import numpy as np
 
 # Delay loading PIEHid--this is only supported in 32-bit, and it helps multiprocessing to have this module
@@ -13,14 +13,13 @@ _pielib = None
 def pielib():
     global _pielib
     if _pielib is None:
-        # _pielib = ctypes.windll.PIEHid64
+        # Assume that the DLL is in the drivers/ directory
         dll_location = os.path.dirname( __file__ )
         _pielib = ctypes.windll.LoadLibrary( os.path.join( dll_location, "PIEHid64") )
     return _pielib
 
 
-# The following structure is defined with 10 fields in PieHid32.h, but it appears that only
-# 4 of them are actually used by the library (???)
+# The following structure is defined with 10 fields in PieHid32.h
 class TEnumHIDInfo(ctypes.Structure):
     _fields_ = [
         ("PID", ctypes.wintypes.DWORD  ),
