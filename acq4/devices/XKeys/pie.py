@@ -25,19 +25,19 @@ XKeysDriver = None
 def getDriver():
     global XKeysDriver, PIE32_BRIDGE, mp, pie32Proc
     if XKeysDriver is None:
-        if platform.architecture()[0] == '32bit':
-            import acq4.drivers.xkeys as XKeysDriver
-            PIE32_BRIDGE = False
-        else:
-            # can't load PIE driver from 64-bit python
-            global pie32Proc
-            # need to make this configurable..
-            executable = "C:\\Anaconda2-32\\python.exe"
-            pie32Proc = mp.QtProcess(executable=executable, copySysPath=False)
-            XKeysDriver = pie32Proc._import('acq4.drivers.xkeys')
-            import atexit
-            atexit.register(pie32Proc.close)
-            PIE32_BRIDGE = True
+        # if platform.architecture()[0] == '32bit':
+        import acq4.drivers.xkeys as XKeysDriver
+        PIE32_BRIDGE = False
+        # else:
+        #     # can't load PIE driver from 64-bit python
+        #     global pie32Proc
+        #     # need to make this configurable..
+        #     executable = "C:\\Anaconda2-32\\python.exe"
+        #     pie32Proc = mp.QtProcess(executable=executable, copySysPath=False)
+        #     XKeysDriver = pie32Proc._import('acq4.drivers.xkeys')
+        #     import atexit
+        #     atexit.register(pie32Proc.close)
+        #     PIE32_BRIDGE = True
 
     return XKeysDriver
 
