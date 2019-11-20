@@ -27,20 +27,22 @@ class ThorlabsDC4100:
         self.dev = None
         self.escape = '\n\n'
         self.read_buffer = []
+        self.channel_state = [ 0, 0, 0, 0]
     
     def connect_device(self):
         try:
-            print('REAL ThorlabsDC4100')
+            print('Mock ThorlabsDC4100')
             print('Connected port={}, baudrate={}, timeout={} '.format(self.port, self.baudrate, self.timeout ) )
-
-            self.dev = Serial(port=self.port,baudrate=self.baudrate,timeout=self.timeout)
+            self.dev = 1
         except SerialException:
             logging.error("Device connection could not be established")
             
     def set_led_channel_state(self, channel, state):
+        print('Setting LED channel {} to state {}'.format( channel, state ))
         self._write_to_LED(COMMANDS["set_led_channel_state"].format(channel, state))
 
     def led_on(self, channel):
+        print('Turning on LED channel {}'.format( channel ))
         self._write_to_LED(COMMANDS["led_on"].format(channel))
     
     def led_off(self,channel):
@@ -73,23 +75,16 @@ class ThorlabsDC4100:
         return self._read_from_LED()
 
     def _write_to_LED(self, command):
-#        self.dev.write(f"{command} {self.escape}".encode())
-        return None
-    
+        # parse string into action, channel, value
+        split_string = command.split(' ')
+        if split_string[0] == 'O':
+            None  # do something here
+
     def _read_from_LED(self):
-        while self.dev.is_open:
-            output = self.dev.read().decode()
-            if len(self.read_buffer) == 0 and output == '\r':
-                self.dev.flush()
-                continue
-            if output == "\n":
-                ret_value = "".join(self.read_buffer)
-                self.dev.flush()
-                self.read_buffer = []
-                return ret_value
-            else:
-                self.read_buffer.append(output)
-    
+        print('Result: {}'.format( self.read_buffer) )
+        self.read_buffer = []
+
+
 def main():
     led = ThorlabsDC4100(port='com12',baudrate=115200,timeout=0.5)
 
