@@ -8,6 +8,7 @@ COMMANDS = {
     "set_brightness": "BP {} {}",
     "get_brightness": "BP? {}",
     "get wavelength": "WL? {}",
+    "set_led_channel_state": "O {} {}",
     "led_on": "O {} 1",
     "led_off": "O {} 0",
     "return_on_off": "O? {}",
@@ -26,6 +27,10 @@ class ThorlabsDC4100:
         self.dev = None
         self.escape = '\n\n'
         self.read_buffer = []
+
+    def set_led_channel_state(self, channel, state):
+        print('Setting LED channel {} to state {}'.format( channel, state ))
+        self._write_to_LED(COMMANDS["set_led_channel_state"].format(channel, state))
 
     def led_on(self, channel):
         self._write_to_LED(COMMANDS["led_on"].format(channel))

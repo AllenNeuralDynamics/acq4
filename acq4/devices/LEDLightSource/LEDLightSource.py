@@ -15,7 +15,7 @@ class LEDLightSource(LightSource):
         for name, conf in config['leds'].items():
             device, chan = conf.pop("channel")
             dev = dm.getDevice(device)
-            dev.sigHoldingChanged.connect(self._mkcb(dev))
+            dev.sigHoldingChanged.connect(self._mkcb(dev))  #incoming from device (query)
 
             conf['active'] = bool(dev.getChanHolding(chan))
             self.addSource(name, conf)

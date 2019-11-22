@@ -3,8 +3,11 @@
 # import acq4.util.clibrary as clib
 from __future__ import print_function
 
-import os, sys, struct, ctypes, ctypes.wintypes, time, threading
+import os, sys, struct, ctypes, ctypes.wintypes, time, threading, platform
 import numpy as np
+
+if platform.architecture()[0] != '64bit':
+    raise Exception("32-bit PIE dll is no longer supported; download PIEHid64.dll from PI Engineering")
 
 # Delay loading PIEHid--this is only supported in 32-bit, and it helps multiprocessing to have this module
 # be importable on 64-bit (so we have access to PIEException)
@@ -151,8 +154,8 @@ deviceCapabilities = {
 
 # Function signatures for callbacks
 if sys.platform == 'win32':
-    dataCallbackType = ctypes.WINFUNCTYPE(ctypes.c_uint32, ctypes.POINTER(ctypes.c_char), ctypes.c_uint32, ctypes.c_uint32)
-    errorCallbackType = ctypes.WINFUNCTYPE(ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32)
+    dataCallbackType = ctypes.WINFUNCTYPE(ctypes.wintypes.DWORD, ctypes.POINTER(ctypes.c_char), ctypes.wintypes.DWORD, ctypes.wintypes.DWORD)
+    errorCallbackType = ctypes.WINFUNCTYPE(ctypes.wintypes.DWORD, ctypes.wintypes.DWORD, ctypes.wintypes.DWORD)
 else:
     dataCallbackType = ctypes.CFUNCTYPE(ctypes.c_uint32, ctypes.POINTER(ctypes.c_char), ctypes.c_uint32, ctypes.c_uint32)
     errorCallbackType = ctypes.CFUNCTYPE(ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32)
@@ -225,7 +228,7 @@ class XKeysDevice(object):
         # Start monitor thread
         self._callback = None
         self._ctypes_cb = dataCallbackType(self._dataCallback)
-        callPieFunc('SetDataCallback', self.handle, 2, self._ctypes_cb)
+        callPieFunc('SetDataCallback', self.handle, self._ctypes_cb)
 
         # reset all backlights
         self.backlightState = np.zeros((rows, cols, 2), dtype='ubyte')
@@ -460,6 +463,8 @@ def hexdump(data, size):
 
 
 if __name__ == '__main__':
+    import faulthandler
+    faulthandler.enable()
     import sys
     if len(sys.argv) > 1:
         index = int(sys.argv[1])

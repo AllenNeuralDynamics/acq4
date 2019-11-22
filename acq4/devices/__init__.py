@@ -24,6 +24,7 @@ def getDeviceClass(name):
     try:
         return devClasses[name]
     except KeyError:
+        print('devClasses: {}'.format(devClasses) )
         raise KeyError('No registered device class named "%s"' % name)
 
 

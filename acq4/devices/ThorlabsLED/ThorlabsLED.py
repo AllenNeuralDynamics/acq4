@@ -13,6 +13,7 @@ class ThorlabsLED( Device ):
         else:
             from acq4.drivers.ThorlabsDC4100.thorlabs_dc4100_led import ThorlabsDC4100
             self.n = ThorlabsDC4100( port='com12',baudrate=115200,timeout=0.5 )
+            self.n.connect_device()
         # print("Created ThorlabsDC4100 handle {}".format( self.n ) )
         self.n.connect_device()
 

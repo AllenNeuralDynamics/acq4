@@ -229,7 +229,6 @@ class MonitorThread(Thread):
                     lastPos = pos
                 else:
                     interval = min(maxInterval, interval*2)
-
                 if self.monitorObj is True:
                     self.dev._checkObjective()
 
