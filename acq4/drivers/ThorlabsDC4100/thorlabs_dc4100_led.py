@@ -33,7 +33,7 @@ class ThorlabsDC4100:
     def led_off(self,channel):
         self._write_to_LED(COMMANDS["led_off"].format(channel))
     
-    def set_brightness(self,channel:int, brightness: float):
+    def set_brightness(self,channel, brightness):
         self._write_to_LED(COMMANDS["set_brightness"].format(channel,brightness))
     
     def get_brightness(self,channel):
