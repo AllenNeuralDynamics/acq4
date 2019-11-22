@@ -1,13 +1,13 @@
+import serial as s
+from serial import SerialException
 import logging
 import os
-import serial as Serial
-from serial import SerialException
 
 
 COMMANDS = {
     "set_brightness": "BP {} {}",
     "get_brightness": "BP? {}",
-    "set_led_channel_state": "O {} {}",
+    "get wavelength": "WL? {}",
     "led_on": "O {} 1",
     "led_off": "O {} 0",
     "return_on_off": "O? {}",
@@ -18,7 +18,6 @@ COMMANDS = {
     "manufacturer": "H?",
     "error_status": "E?"
     }
-
 class ThorlabsDC4100:
     def __init__(self,port,baudrate,timeout):
         self.port = port
@@ -27,18 +26,6 @@ class ThorlabsDC4100:
         self.dev = None
         self.escape = '\n\n'
         self.read_buffer = []
-    
-    def connect_device(self):
-        try:
-            print('REAL ThorlabsDC4100')
-            print('Connected port={}, baudrate={}, timeout={} '.format(self.port, self.baudrate, self.timeout ) )
-
-            self.dev = Serial(port=self.port,baudrate=self.baudrate,timeout=self.timeout)
-        except SerialException:
-            logging.error("Device connection could not be established")
-            
-    def set_led_channel_state(self, channel, state):
-        self._write_to_LED(COMMANDS["set_led_channel_state"].format(channel, state))
 
     def led_on(self, channel):
         self._write_to_LED(COMMANDS["led_on"].format(channel))
@@ -46,7 +33,7 @@ class ThorlabsDC4100:
     def led_off(self,channel):
         self._write_to_LED(COMMANDS["led_off"].format(channel))
     
-    def set_brightness(self,channel, brightness):
+    def set_brightness(self,channel:int, brightness: float):
         self._write_to_LED(COMMANDS["set_brightness"].format(channel,brightness))
     
     def get_brightness(self,channel):
@@ -71,10 +58,15 @@ class ThorlabsDC4100:
     def manufacturer(self):
         self._write_to_LED(COMMANDS["manufacturer"])
         return self._read_from_LED()
+     
+    def connect_device(self):
+        try:
+            self.dev = s.Serial(port=self.port,baudrate=self.baudrate,timeout=self.timeout)
+        except SerialException:
+            logging.error("Device connection could not be established")
 
     def _write_to_LED(self, command):
-#        self.dev.write(f"{command} {self.escape}".encode())
-        return None
+        self.dev.write("{} {}".format(command,self.escape).encode())
     
     def _read_from_LED(self):
         while self.dev.is_open:
