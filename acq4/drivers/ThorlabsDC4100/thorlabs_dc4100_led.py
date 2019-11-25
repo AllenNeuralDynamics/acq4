@@ -1,5 +1,6 @@
 import serial as s
 from serial import SerialException
+import serial.tools.list_ports
 import logging
 import os
 
@@ -19,6 +20,7 @@ COMMANDS = {
     "manufacturer": "H?",
     "error_status": "E?"
     }
+
 class ThorlabsDC4100:
     def __init__(self,port,baudrate,timeout):
         self.port = port
@@ -27,6 +29,20 @@ class ThorlabsDC4100:
         self.dev = None
         self.escape = '\n\n'
         self.read_buffer = []
+        self.availableDevices
+
+    def list_devices(self):
+        coms = serial.tools.list_ports.comports()
+        devs = {}
+        for com, name, ident in coms:
+            # several different ways this can appear:
+            #  VID_1313+PID_8066
+            #  VID_1313&PID_8066
+            #  VID:PID=1313:8066
+        print( 'com: {}, name: {}, ident: {}'.format( com, name, ident))
+
+            if ('VID_1313' not in ident or 'PID_8066' not in ident) and '1313:8066' not in ident:
+                continue
 
     def set_led_channel_state(self, channel, state):
         print('Setting LED channel {} to state {}'.format( channel, state ))
