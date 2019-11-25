@@ -49,6 +49,11 @@ class LightSource(Device):
         """
         raise NotImplementedError()
 
+    def setSourceValue(self, name, level):
+        """Set power of light source.
+        """
+        raise NotImplementedError()
+
     def _updateXkeyLight(self, name):
         if 'xkey' in self._sources[name]:
             devname, row, col = self._sources[name]['xkey']

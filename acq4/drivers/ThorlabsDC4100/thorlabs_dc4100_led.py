@@ -19,6 +19,7 @@ COMMANDS = {
     "manufacturer": "H?",
     "error_status": "E?"
     }
+    
 class ThorlabsDC4100:
     def __init__(self,port,baudrate,timeout):
         self.port = port
@@ -45,7 +46,7 @@ class ThorlabsDC4100:
         self._write_to_LED(COMMANDS["get_brightness"].format(channel))
         return self._read_from_LED()
     
-    def check_if_on(self, channel):
+    def get_on_off(self, channel):
         self._write_to_LED(COMMANDS["return_on_off"].format(channel))
         return self._read_from_LED()
     
