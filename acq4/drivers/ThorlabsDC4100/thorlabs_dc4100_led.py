@@ -22,27 +22,35 @@ COMMANDS = {
     }
 
 class ThorlabsDC4100:
-    def __init__(self,port,baudrate,timeout):
+    def __init__(self,port=None,baudrate=115200,timeout=0.5):
         self.port = port
         self.baudrate = baudrate
         self.timeout = timeout
         self.dev = None
         self.escape = '\n\n'
         self.read_buffer = []
-        self.availableDevices
+        self.availableDevices = []
+
+        if self.port is None:
+            self.list_devices()
+            try:
+                # self.port=self.availableDevices[0]
+                self.port='com25'
+                print( 'Found Thorlabs DC4100 at port {}'.format(self.port) )
+            except:
+                raise Exception("No Thorlabs LED devices detected.")
 
     def list_devices(self):
         coms = serial.tools.list_ports.comports()
-        devs = {}
         for com, name, ident in coms:
             # several different ways this can appear:
             #  VID_1313+PID_8066
             #  VID_1313&PID_8066
             #  VID:PID=1313:8066
-        print( 'com: {}, name: {}, ident: {}'.format( com, name, ident))
-
             if ('VID_1313' not in ident or 'PID_8066' not in ident) and '1313:8066' not in ident:
                 continue
+            # else, add the device to the list
+            self.availableDevices.append( com )
 
     def set_led_channel_state(self, channel, state):
         print('Setting LED channel {} to state {}'.format( channel, state ))
@@ -81,6 +89,8 @@ class ThorlabsDC4100:
         return self._read_from_LED()
      
     def connect_device(self):
+        print('port: {}, baudrate: {}, timeout: {}'. format( self.port,self.baudrate,self.timeout ))
+
         try:
             self.dev = s.Serial(port=self.port,baudrate=self.baudrate,timeout=self.timeout)
         except SerialException:

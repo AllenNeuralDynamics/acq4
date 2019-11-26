@@ -12,10 +12,10 @@ class ThorlabsLED( Device ):
             self.n = ThorlabsDC4100( port='com12',baudrate=115200,timeout=0.5 )
         else:
             from acq4.drivers.ThorlabsDC4100.thorlabs_dc4100_led import ThorlabsDC4100
-            self.n = ThorlabsDC4100( port='com12',baudrate=115200,timeout=0.5 )
-            self.n.connect_device()
+            self.n = ThorlabsDC4100( )
         # print("Created ThorlabsDC4100 handle {}".format( self.n ) )
         self.n.connect_device()
+        print('firmware: {}'.format(self.n.firmware) )
 
 # MS: Do I need this?
 #        self.delayedSet = Mutex.threadsafe({})
@@ -33,4 +33,5 @@ class ThorlabsLED( Device ):
         """
         print( "Setting channel %s to %f" % (chan, value) )
         self.n.set_led_channel_state( chan, value )
+        self.n.led_on( chan )
 
