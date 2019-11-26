@@ -496,7 +496,7 @@ class DAQDevGui(Qt.QWidget):
         #self.uis = {}
         self.defaults = {}
         row = 0
-        for ch in chans:
+        for ch in sorted(chans):
             wid = Qt.QWidget()
             ui = DeviceTemplate.Ui_Form()
             ui.setupUi(wid)
