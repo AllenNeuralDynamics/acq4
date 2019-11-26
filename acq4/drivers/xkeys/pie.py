@@ -401,14 +401,16 @@ class XKeysDevice(object):
 
     def _unpackEventData_XKE128(self, data):
         rows, cols = self.keyshape
-        keybytes = np.array([list(bytearray(data[2:2+cols]))])
+        keybytes = np.array([list(bytearray(data[3:3+cols]))])  #MS: untested change from 2:2
         keys = (self._keymask & keybytes).astype(bool)
         return {'keys': keys}
 
     def _unpackEventData_XK60(self, data):
         rows, cols = self.keyshape
-        keybytes = np.array([list(bytearray(data[2:2+cols]))])
+        keybytes = np.array([list(bytearray(data[3:3+cols]))])
+        # print('keybytes: {}'.format(keybytes))
         keys = (self._keymask & keybytes).astype(bool)
+        # print('keys: {}'.format(keys))
         return {'keys': keys}
 
 
@@ -443,7 +445,7 @@ class XKeysDevice(object):
         return changes
 
     def _dataCallback(self, data, devid, err):
-        # hexdump(data, self.readsize)
+        # hexdump(data, self._readsize)
         changes = self._handleData(data)
         if len(changes) > 0 and self._callback is not None:
             self._callback(changes)
