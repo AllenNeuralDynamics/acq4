@@ -12,10 +12,10 @@ class ThorlabsLED( Device ):
             self.n = ThorlabsDC4100( port='com12',baudrate=115200,timeout=0.5 )
         else:
             from acq4.drivers.ThorlabsDC4100.thorlabs_dc4100_led import ThorlabsDC4100
-            self.n = ThorlabsDC4100( port='com12',baudrate=115200,timeout=0.5 )
-            self.n.connect_device()
+            self.n = ThorlabsDC4100( )
         # print("Created ThorlabsDC4100 handle {}".format( self.n ) )
         self.n.connect_device()
+        # print('firmware: {}'.format(self.n.firmware) )
 
 # MS: Do I need this?
 #        self.delayedSet = Mutex.threadsafe({})
@@ -23,14 +23,14 @@ class ThorlabsLED( Device ):
 
     def setChannelValue(self, chan, value, block=False, delaySetIfBusy=False, ignoreLock=False):
         """Set a channel on this DAQ. 
-        Arguments:
-            block: bool. If True, wait until the device is available. 
-                    If False, return immediately if the device is not available.
-            delaySetIfBusy: If True and the hardware is currently reserved, then
-                            schedule the set to occur immediately when the hardware becomes available again.
-            ignoreLock: attempt to set the channel value even if the device is reserved.
-        Returns True if the channel was set, False otherwise.
+        # Arguments:
+        #     block: bool. If True, wait until the device is available. 
+        #             If False, return immediately if the device is not available.
+        #     delaySetIfBusy: If True and the hardware is currently reserved, then
+        #                     schedule the set to occur immediately when the hardware becomes available again.
+        #     ignoreLock: attempt to set the channel value even if the device is reserved.
+        # Returns True if the channel was set, False otherwise.
         """
-        print( "Setting channel %s to %f" % (chan, value) )
-        self.n.set_led_channel_state( chan, value )
+        # print( "Setting channel %s to %f" % (chan, int(value) ) )
+        self.n.set_led_channel_state( chan, int(value) )
 
