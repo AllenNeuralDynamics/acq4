@@ -34,9 +34,8 @@ class ThorlabsDC4100:
         if self.port is None:
             self.list_devices()
             try:
-                # self.port=self.availableDevices[0]
-                self.port='com25'
-                print( 'Found Thorlabs DC4100 at port {}'.format(self.port) )
+                self.port=self.availableDevices[0]
+                # print( 'Found Thorlabs DC4100 at port {}'.format(self.port) )
             except:
                 raise Exception("No Thorlabs LED devices detected.")
 
@@ -53,7 +52,7 @@ class ThorlabsDC4100:
             self.availableDevices.append( com )
 
     def set_led_channel_state(self, channel, state):
-        print('Setting LED channel {} to state {}'.format( channel, state ))
+        # print('Setting LED channel {} to state {}'.format( channel, state ))
         self._write_to_LED(COMMANDS["set_led_channel_state"].format(channel, state))
 
     def led_on(self, channel):
@@ -89,10 +88,9 @@ class ThorlabsDC4100:
         return self._read_from_LED()
      
     def connect_device(self):
-        print('port: {}, baudrate: {}, timeout: {}'. format( self.port,self.baudrate,self.timeout ))
-
         try:
             self.dev = s.Serial(port=self.port,baudrate=self.baudrate,timeout=self.timeout)
+            # print('Connected at port: {}, baudrate: {}, timeout: {}'. format( self.port,self.baudrate,self.timeout ))
         except SerialException:
             logging.error("Device connection could not be established")
 
@@ -114,7 +112,8 @@ class ThorlabsDC4100:
                 self.read_buffer.append(output)
     
 def main():
-    led = ThorlabsDC4100(port='com12',baudrate=115200,timeout=0.5)
+    led = ThorlabsDC4100()
+    led.connect_device()
 
 if __name__ == "__main__":
     main()
