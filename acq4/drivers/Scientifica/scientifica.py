@@ -233,6 +233,8 @@ class Scientifica(SerialDevice):
         'approachMode': ('APPROACH', 'APPROACH %d', bool),
         'objDisp': ('OBJDISP', 'OBJDISP %d', float),
         'objLift': ('OBJLIFT', 'OBJLIFT %d', float),
+        'objL1': ('OBJL 1', 'OBJL 1 %d', float),
+        'objL2': ('OBJL 2', 'OBJL 2 %d', float),
     }
 
     @staticmethod
