@@ -124,6 +124,10 @@ errorStrings = {
 devicePIDs = {
     1062: 'XK12JS',
     1064: 'XK12JS',
+    1089: 'XK80',
+    1090: 'XK80',
+    1091: 'XK80',
+    1250: 'XK80',
     1121: 'XK60',
     1122: 'XK60',
     1123: 'XK60',
@@ -139,6 +143,7 @@ devicePIDs = {
 deviceNames = {
     'XK12JS': 'XK-12 Jog & Shuttle',
     'XK60'  : 'XK-60',
+    'XK80'  : 'XK-80',
     'XKE128': 'XKE-128',
 }
 
@@ -148,6 +153,7 @@ capabilityKeys = ['rows', 'columns', 'joysticks', 'jog/shuttle', 'touchpad']
 deviceCapabilities = {
     'XK12JS': (3, 4, 0, True, False),
     'XK60'  : (8, 10, 0, False, False),
+    'XK80'  : (8, 10, 0, False, False),
     'XKE128': (8, 16, 0, False, False),
 }
 
@@ -411,6 +417,12 @@ class XKeysDevice(object):
         # print('keybytes: {}'.format(keybytes))
         keys = (self._keymask & keybytes).astype(bool)
         # print('keys: {}'.format(keys))
+        return {'keys': keys}
+
+    def _unpackEventData_XK80(self, data):
+        rows, cols = self.keyshape
+        keybytes = np.array([list(bytearray(data[3:3+cols]))])
+        keys = (self._keymask & keybytes).astype(bool)
         return {'keys': keys}
 
 
