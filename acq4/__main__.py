@@ -16,6 +16,9 @@ from .util import Qt
 from .Manager import Manager
 from .util.debug import installExceptionHandler
 
+import mpeconfig
+
+mpeconfig.source_configuration("acq4", version="2.0.0", fetch_logging_config=True)
 
 # Pull some args out
 if "--profile" in sys.argv:

@@ -1,0 +1,38 @@
+syntax = "proto2";
+import "aibsmw_messages.proto";
+
+message config_loaded {
+    required message_header header = 1;
+    required string version = 2;
+}
+
+message capture_image {
+    required message_header header = 1;
+    required string image_type = 2;
+}
+
+message image_captured {
+    required message_header header = 1;
+    required string image_type = 2;
+    required string image_path = 3;
+    required float x_stage_um = 4;
+    required float y_stage_um = 5;
+    required float z_stage_um = 6;
+    required string timestamp = 7;
+    required float x_size_um = 8;
+    required float y_size_um = 9;
+}
+
+message get_z_depth {
+    required message_header header = 1;
+}
+
+message z_depth {
+   required message_header header = 1;
+   required float z_stage_um = 2;
+}
+
+message set_link_btn_state {
+    required message_header header = 1;
+    required bool checked = 2;
+}

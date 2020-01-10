@@ -17,7 +17,7 @@ from acq4.util.imaging import ImagingCtrl
 from acq4.modules.Camera import CameraModuleInterface
 
 
-class CameraInterface(CameraModuleInterface):
+class CameraInterface(CameraModuleInterface): 
     """
     This class provides all the functionality necessary for a camera to display 
     images and controls within the camera module's main window. Each camera that 
@@ -47,6 +47,10 @@ class CameraInterface(CameraModuleInterface):
         # contrast & background subtraction user interfaces
         self.imagingCtrl = ImagingCtrl()
         self.frameDisplay = self.imagingCtrl.frameDisplay
+
+        Manager.getManager().zmq_worker.sigSetLinkBtnState.connect(lambda x: self.imagingCtrl.ui.linkSavePinBtn.setChecked(x))
+        Manager.getManager().zmq_worker.sigCaptureImage.connect(self.zmq_cap_image)
+        self.imagingCtrl.sigZmqFrameAcq.connect(Manager.getManager().zmq_worker.image_captured)
 
         ## Move control panels into docks
         recDock = dockarea.Dock(name="Recording", widget=self.imagingCtrl, size=(100, 10), autoOrientation=False)
@@ -136,6 +140,11 @@ class CameraInterface(CameraModuleInterface):
             dev = Manager.getManager().getDevice(key['device'])
             dev.addKeyCallback(key['key'], self.hotkeyPressed, (action,))
     
+    def zmq_cap_image(self, img_type):
+        self.imagingCtrl.zmq_img_type = img_type
+        if img_type != "tile_image":
+            self.imagingCtrl.recordThread.saveFrame()
+
     def newFrame(self, frame):
         self.imagingCtrl.newFrame(frame)
         self.sigNewFrame.emit(self, frame)
