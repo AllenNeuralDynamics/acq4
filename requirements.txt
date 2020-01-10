@@ -2,6 +2,7 @@ numpy==1.16.4
 six 
 scipy==1.2.2 
 pillow==6.1.0 
+protobuf == 3.11.*
 pyparsing==2.0.3 
 pyserial==3.4 
 pywin32==225 
@@ -10,3 +11,4 @@ faulthandler
 zmq 
 falconoptics
 pyqt4
+mpeconfig_27==1.0.*

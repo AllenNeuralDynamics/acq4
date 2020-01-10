@@ -27,6 +27,8 @@ class Microscope(Device, OptomechDevice):
     sigLightChanged = Qt.Signal(object, object)  # self, lightName
     sigObjectiveListChanged = Qt.Signal()
     sigSurfaceDepthChanged = Qt.Signal(object)
+
+    sigSetSurfaceClicked = Qt.Signal(float)
     
     def __init__(self, dm, config, name):
         Device.__init__(self, dm, config, name)
@@ -40,6 +42,9 @@ class Microscope(Device, OptomechDevice):
         self._focusDevice = None
         self._positionDevice = None
         self._surfaceDepth = None
+
+        self.sigSetSurfaceClicked.connect(dm.zmq_worker.z_depth)
+        dm.zmq_worker.sigGetZDepth.connect(lambda: self.sigSetSurfaceClicked.emit(self.getFocusDevice().globalPosition()[2]))
         
         self.objectives = collections.OrderedDict()
         ## Format of self.objectives is:
@@ -475,8 +480,10 @@ class ScopeCameraModInterface(CameraModuleInterface):
 
         self.transformChanged()
 
-    def setSurfaceClicked(self):
+    def setSurfaceClicked(self):  # slot when Set Surface button clicked. 
         focus = self.getDevice().getFocusDepth()
+        self.getDevice().sigSetSurfaceClicked.emit(self.getDevice().focusDevice().globalPosition()[2])
+
         self.getDevice().setSurfaceDepth(focus)
 
     def surfaceDepthChanged(self, depth):

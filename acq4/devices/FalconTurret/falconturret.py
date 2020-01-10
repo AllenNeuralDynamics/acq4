@@ -15,6 +15,11 @@ class FalconTurret(FilterWheel):
 
         FilterWheel.__init__(self, dm, config, name)
 
+        try:
+            dm.sigAbortAll.disconnect(self.stop)
+        except TypeError as e_type_error:
+            pass
+        
         if not self.dev.is_homed:
             self._initialFuture = self.home()
 

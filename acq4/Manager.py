@@ -32,6 +32,10 @@ from .util.HelpfulException import HelpfulException
 from . import __version__
 from . import devices, modules
 
+from zmq_handler.zmq_worker import ZmqWorker
+
+__version__ = "2.0.0"  # can move later to another place
+
 ### All other modules can use this function to get the manager instance
 def getManager():
     if Manager.single is None:
@@ -62,6 +66,8 @@ class Manager(Qt.QObject):
     sigLogDirChanged = Qt.Signal(object) #dir
     sigTaskCreated = Qt.Signal(object, object)  ## for debugger module
     sigAbortAll = Qt.Signal()  # User requested abort all tasks via ESC key
+
+    sigConfigLoaded = Qt.Signal(str)
     
     CREATED = False
     single = None
@@ -80,7 +86,10 @@ class Manager(Qt.QObject):
         self.disableAllDevs = False
         self.alreadyQuit = False
         self.taskLock = Mutex(Qt.QMutex.Recursive)
-        
+
+        self.zmq_worker = ZmqWorker()
+        self.zmq_worker.start()
+
         try:
             if Manager.CREATED:
                 raise Exception("Manager object already created!")
@@ -113,6 +122,10 @@ class Manager(Qt.QObject):
                 opts = []
             
             Qt.QObject.__init__(self)
+
+            self.sigConfigLoaded.connect(self.zmq_worker.config_loaded)
+
+
             atexit.register(self.quit)
             self.interfaceDir = InterfaceDirectory()
     
@@ -174,7 +187,7 @@ class Manager(Qt.QObject):
                             self.loadModule(m)
                     except:
                         if not loadManager:
-                            self.showGUI()
+                            self.showGUI() 
                         raise
                         
             except:
@@ -189,6 +202,9 @@ class Manager(Qt.QObject):
             if len(self.modules) == 0:
                 self.quit()
                 raise Exception("No modules loaded during startup, exiting now.")
+            else:
+                global __version__
+                self.sigConfigLoaded.emit(__version__)  # emits signal to zmq_worker to send
             
         win = self.modules[list(self.modules.keys())[0]].window()
         self.quitShortcut = Qt.QShortcut(Qt.QKeySequence('Ctrl+q'), win)
@@ -805,6 +821,9 @@ class Manager(Qt.QObject):
         #def q():
             #print "all windows closed"
         #Qt.QObject.connect(app, Qt.SIGNAL('lastWindowClosed()'), q)
+
+        self.zmq_worker.sentinel = False
+
         if not self.alreadyQuit:  ## Need this because multiple triggers can call this function during quit
             self.alreadyQuit = True
             lm = len(self.modules)
