@@ -6,7 +6,10 @@ from .frame_display import FrameDisplay
 from .imaging_template import Ui_Form
 from .record_thread import RecordThread
 from acq4.util.debug import printExc
+import acq4.Manager as Manager 
 
+import datetime
+ 
 
 class ImagingCtrl(Qt.QWidget):
     """Control widget used to interact with imaging devices. 
@@ -40,6 +43,8 @@ class ImagingCtrl(Qt.QWidget):
     sigStopVideoClicked = Qt.Signal()
     sigAcquireFrameClicked = Qt.Signal(object)  # mode
 
+    sigZmqFrameAcq = Qt.Signal(str, str, float, float, float, str, float, float)
+
     frameDisplayClass = FrameDisplay  # let subclasses override this class
 
 
@@ -47,6 +52,8 @@ class ImagingCtrl(Qt.QWidget):
         Qt.QWidget.__init__(self, parent)
 
         self.frameDisplay = self.frameDisplayClass()
+
+        self.zmq_img_type = ""
 
         self.pinnedFrames = []
         self.stackShape = None
@@ -293,6 +300,13 @@ class ImagingCtrl(Qt.QWidget):
         else:            
             self.ui.saveFrameBtn.success("Saved.")
 
+            self.sigZmqFrameAcq.emit(self.zmq_img_type, file, 
+                Manager.getManager().getDevice("Microscope").focusDevice().globalPosition()[0],
+                Manager.getManager().getDevice("Microscope").focusDevice().globalPosition()[1], 
+                Manager.getManager().getDevice("Microscope").focusDevice().globalPosition()[2], 
+                datetime.datetime.now().utcnow().isoformat() + "+00:00", 22.0, 23.0)
+
+            print(Manager.getManager().getDevice("Microscope").focusDevice().globalPosition())
 
 
 
