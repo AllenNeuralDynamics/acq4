@@ -3,6 +3,7 @@ import os, sys
 
 __version__ = '0.9.3'
 
+print('In __init__.py')
 
 # If we are running from a git repo, generate a more descriptive version number 
 from .util.gitversion import getGitVersion

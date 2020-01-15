@@ -34,7 +34,7 @@ from . import devices, modules
 
 from zmq_handler.zmq_worker import ZmqWorker
 
-__version__ = "2.0.0"  # can move later to another place
+#__version__ = "2.0.0"  # can move later to another place
 
 ### All other modules can use this function to get the manager instance
 def getManager():
@@ -203,7 +203,7 @@ class Manager(Qt.QObject):
                 self.quit()
                 raise Exception("No modules loaded during startup, exiting now.")
             else:
-                global __version__
+                # global __version__
                 self.sigConfigLoaded.emit(__version__)  # emits signal to zmq_worker to send
             
         win = self.modules[list(self.modules.keys())[0]].window()
