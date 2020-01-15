@@ -14,14 +14,14 @@ def getGitVersion(tagPrefix, repoDir):
     # v = subprocess.check_output(['git', '-C', repoDir, 'describe', '--tags', '--dirty', '--match=%s*'%tagPrefix]).strip().decode('utf-8')
     v = subprocess.check_output(['git', '-C', repoDir, 'describe', '--tags', '--dirty', '--long', '--all'])
     v = v.rstrip()
-    print(v)
+
     v_parts = v.split('/')
-    print(v_parts)
+    # print(v_parts)
     description_type = v_parts[0]
-    print('description_type: ', description_type)
+    # print('description_type: ', description_type)
     version = v_parts[1:]
     version = '/'.join(version)
-    print(version)
+    # print(version)
     # # chop off prefix
     # assert v.startswith(tagPrefix)
     # v = v[len(tagPrefix):]
@@ -29,7 +29,7 @@ def getGitVersion(tagPrefix, repoDir):
 
     # split up version parts
     parts = version.split('-')
-    print(parts)    
+    # print(parts)    
 
     gitVersion = parts[0]
 
@@ -48,18 +48,18 @@ def getGitVersion(tagPrefix, repoDir):
         git_sha = parts[-1]
         distance = int(parts[-2])
 
-        print('git_sha:', git_sha)
-        print('distance:', distance)
+        # print('git_sha:', git_sha)
+        # print('distance:', distance)
 
     if (distance != 0) or (description_type != 'tags'):
-        print(description_type)
+        # print(description_type)
         gitVersion = 'no_tag'  # then make it clear that this git sha isn't tagged
 
     if git_sha is not None:
-        gitVersion += '+' + git_sha
+        gitVersion += '+' + git_sha + '.clone'
     if modified:
         gitVersion += '.dirty'
 
-    print( gitVersion )
+    # print( gitVersion )
     return gitVersion
 
