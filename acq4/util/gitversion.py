@@ -10,9 +10,13 @@ def getGitVersion(tagPrefix, repoDir):
     """
     # if not os.path.isdir(os.path.join(repoDir, '.git')):
     #     return None
-        
-    # v = subprocess.check_output(['git', '-C', repoDir, 'describe', '--tags', '--dirty', '--match=%s*'%tagPrefix]).strip().decode('utf-8')
-    v = subprocess.check_output(['git', '-C', repoDir, 'describe', '--tags', '--dirty', '--long', '--all'])
+
+    # if git can't describe, either it's not a git repo or git is missing
+    try:
+        v = subprocess.check_output(['git', '-C', repoDir, 'describe', '--tags', '--dirty', '--long', '--all'])
+    except subprocess.CalledProcessError:
+        return 'local'
+
     v = v.rstrip()
 
     v_parts = v.split('/')
@@ -57,6 +61,25 @@ def getGitVersion(tagPrefix, repoDir):
 
     if git_sha is not None:
         gitVersion += '+' + git_sha + '.clone'
+
+    # is the current commit present in aibspi?
+
+    ## check if current commit is in any remote branch
+    ##  git branch -r --contains fac826de414ef3fe854dc24493be306ff911bb8c
+    ##   output:  origin/master
+    r_branches = subprocess.check_output(['git', '-C', repoDir, 'describe', '--tags', '--dirty', '--long', '--all'])
+    r_branches = r_branches.rstrip()
+    print('r_branches: ', r_branches)
+
+    if r_branches is None:
+        gitVersion += '.not_pushed'
+
+    ## get the url of the branch 'origin'
+    ### git ls-remote --get-url origin
+    #### http://aibspi.corp.alleninstitute.org/celltypes/mFISH/create_labels.git
+    #### check for aibspi in url name
+
+
     if modified:
         gitVersion += '.dirty'
 
