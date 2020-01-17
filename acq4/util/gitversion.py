@@ -23,20 +23,14 @@ g)	If the git SHA is not in any remote branch, then 'not_pushed' is also appened
     v = v.rstrip()
 
     v_parts = v.split('/')
-    # print(v_parts)
+
     description_type = v_parts[0]
-    # print('description_type: ', description_type)
+
     version = v_parts[1:]
     version = '/'.join(version)
-    # print(version)
-    # # chop off prefix
-    # assert v.startswith(tagPrefix)
-    # v = v[len(tagPrefix):]
-    # v = v.lstrip('-')
 
     # split up version parts
     parts = version.split('-')
-    # print(parts)    
 
     gitVersion = parts[0]
 
@@ -46,17 +40,12 @@ g)	If the git SHA is not in any remote branch, then 'not_pushed' is also appened
         modified = True
         parts = parts[:-1]
 
-    print(parts)    
-        
     # have commits been added on top of last tagged version?
     # (git describe adds -NNN-gXXXXXXX if this is the case)
     git_sha = None
     if len(parts) > 2 and re.match(r'\d+', parts[-2]) and re.match(r'g[0-9a-f]{7}', parts[-1]):
         git_sha = parts[-1]
         distance = int(parts[-2])
-
-        # print('git_sha:', git_sha)
-        # print('distance:', distance)
 
     if (distance != 0) or (description_type != 'tags'):
         # print(description_type)
@@ -72,16 +61,13 @@ g)	If the git SHA is not in any remote branch, then 'not_pushed' is also appened
     ##   output:  origin/master
     r_branches = subprocess.check_output(['git', '-C', repoDir, 'branch', '-r', '--contains', git_sha[1:] ])  #ignore the leading 'g' in the sha-string
     r_branches = r_branches.rstrip()
-    print('r_branches: ', r_branches)
 
     if r_branches is '':
         gitVersion += '.not_pushed'
 
-    ## get the url of the branch 'origin'
+    ## TODO: get the url of the remote branches from above and test that aibspi is there
     ### git ls-remote --get-url origin
-    #### http://aibspi.corp.alleninstitute.org/celltypes/mFISH/create_labels.git
-    #### check for aibspi in url name
-
+    #### output: http://aibspi.corp.alleninstitute.org/celltypes/mFISH/create_labels.git
 
     if modified:
         gitVersion += '.dirty'
