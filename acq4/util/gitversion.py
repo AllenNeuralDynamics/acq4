@@ -67,11 +67,11 @@ def getGitVersion(tagPrefix, repoDir):
     ## check if current commit is in any remote branch
     ##  git branch -r --contains fac826de414ef3fe854dc24493be306ff911bb8c
     ##   output:  origin/master
-    r_branches = subprocess.check_output(['git', '-C', repoDir, 'describe', '--tags', '--dirty', '--long', '--all'])
+    r_branches = subprocess.check_output(['git', 'branch', '-r', '--contains', git_sha[1:] ])  #ignore the leading 'g' in the sha-string
     r_branches = r_branches.rstrip()
     print('r_branches: ', r_branches)
 
-    if r_branches is None:
+    if r_branches is '':
         gitVersion += '.not_pushed'
 
     ## get the url of the branch 'origin'
