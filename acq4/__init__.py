@@ -1,14 +1,13 @@
 from __future__ import print_function
 import os, sys
 
-__version__ = '0.9.3'
-
+__version__ = 'local'
 
 # If we are running from a git repo, generate a more descriptive version number 
 from .util.gitversion import getGitVersion
 
 try:
-    gitv = getGitVersion('acq4', os.path.join(os.path.dirname(__file__), '..'))
+    gitv = getGitVersion(os.path.join(os.path.dirname(__file__), '..'))
     if gitv is not None:
         __version__ = gitv
 except Exception:
