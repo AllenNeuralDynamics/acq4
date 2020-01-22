@@ -217,6 +217,11 @@ class Manager(Qt.QObject):
         self.abortShortcut.activated.connect(self.sigAbortAll)
         self.reloadShortcut.activated.connect(self.reloadAll)
 
+        data_directory = "C:/Users/svc_mpe/Desktop/junk_data/"  # strictly debug, change to config now!
+        dh = DataManager.getDirHandle(os.path.dirname(data_directory))
+        self.setBaseDir(dh)
+        self.setCurrentDir(dh)
+
     def _getConfigFile(self):
         ## search all the default locations to find a configuration file.
         from acq4 import CONFIGPATH
@@ -678,6 +683,7 @@ class Manager(Qt.QObject):
         """
         Set the currently-selected directory for data storage.
         """
+
         if self.currentDir is not None:
             try:
                 self.currentDir.sigChanged.disconnect(self.currentDirChanged)
