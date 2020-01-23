@@ -33,6 +33,8 @@ class ZmqWorker(QThread):
     sigGetZDepth = pyqtSignal()
     sigSetLinkBtnState = pyqtSignal(bool)
     sigRequestProcStatus = pyqtSignal()
+    sigSetSurfaceBtnEnable = pyqtSignal(bool)
+    sigClearTileImages = pyqtSignal()
 
     def __init__(self):
         super(QThread, self).__init__()
@@ -46,6 +48,8 @@ class ZmqWorker(QThread):
         self.io.register_for_message("get_z_depth", self.get_z_depth_h)
         self.io.register_for_message("set_link_btn_state", self.set_link_btn_state_h)
         self.io.register_for_message("request_proc_status", self.request_proc_status_h)
+        self.io.register_for_message("set_surface_btn", self.set_surface_btn_h)
+        self.io.register_for_message("clear_tile_images", self.clear_tile_images_h)
 
     # incoming messages
     def capture_image_h(self, message_id, message, timestamp, io):
@@ -59,6 +63,12 @@ class ZmqWorker(QThread):
 
     def request_proc_status_h(self, message_id, message, timestamp, io):
         self.sigRequestProcStatus.emit()
+
+    def set_surface_btn_h(self, message_id, message, timestamp, io):
+        self.sigSetSurfaceBtnEnable.emit(message.enabled)
+
+    def clear_tile_images_h(self, message_id, message, timestamp, io):
+        self.sigClearTileImages.emit()
 
     # outgoing messages
     @pyqtSlot(str)

@@ -36,3 +36,12 @@ message set_link_btn_state {
     required message_header header = 1;
     required bool checked = 2;
 }
+
+message set_surface_btn {
+    required message_header header = 1;
+    required bool enabled = 2;
+}
+
+message clear_tile_images {
+    required message_header header = 1;
+}

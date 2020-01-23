@@ -42,6 +42,7 @@ class Microscope(Device, OptomechDevice):
         self._focusDevice = None
         self._positionDevice = None
         self._surfaceDepth = None
+        self.dm = dm
 
         self.sigSetSurfaceClicked.connect(dm.zmq_worker.z_depth)
         dm.zmq_worker.sigGetZDepth.connect(lambda: self.sigSetSurfaceClicked.emit(self.getFocusDevice().globalPosition()[2]))
@@ -340,6 +341,7 @@ class ScopeGUI(Qt.QWidget):
         self.dev = dev
         self.dev.sigObjectiveChanged.connect(self.objectiveChanged)
         #self.dev.sigPositionChanged.connect(self.positionChanged)
+        
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.objList = self.dev._allObjectives()
@@ -477,6 +479,8 @@ class ScopeCameraModInterface(CameraModuleInterface):
         # only works with devices that can change their waypoint while in motion
         # self.movableFocusLine.sigDragged.connect(self.focusDragged)
         self.movableFocusLine.sigPositionChangeFinished.connect(self.focusDragged)
+
+        self.getDevice().dm.zmq_worker.sigSetSurfaceBtnEnable.connect(lambda x: self.setSurfaceBtn.setEnabled(x))
 
         self.transformChanged()
 
