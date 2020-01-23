@@ -15,7 +15,7 @@ if __name__ == '__main__':
     path = os.path.dirname(os.path.abspath(__file__))
     sys.path.append(os.path.join(path, '..', '..'))
 
-import threading, os, re, sys, shutil
+import threading, os, re, sys, shutil 
 from acq4.util.functions import strncmp
 from acq4.util.configfile import *
 import time

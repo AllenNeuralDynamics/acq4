@@ -75,6 +75,16 @@ class MsgTest:
                 "comment": "request_proc_status",
                 "command": aibsmw_messages.request_proc_status(),
                 "setup": {}
+            },
+            "5": {
+                "comment": "set_surface_btn",
+                "command": acq4io.set_surface_btn(),
+                "setup": {"enabled": False}
+            },
+            "6": {
+                "comment": "clear_tile_images",
+                "command": acq4io.clear_tile_images(),
+                "setup": {}
             }
         }
 
@@ -83,6 +93,8 @@ class MsgTest:
         print("2 - get_z_depth")
         print("3 - set_link_btn_state")
         print("4 - request_proc_status")
+        print("5 - set_surface_btn")
+        print("6 - clear_tile_images")
 
         while self.sentinal:
             try:
@@ -101,6 +113,7 @@ class MsgTest:
         self.sentinal = False  # redundant because daemon flag on thread but whatever
         print("...exiting")
 
+
 def main():
     msg_test = MsgTest()
     msg_test.listen()
@@ -109,6 +122,7 @@ def main():
             time.sleep(0.2)
     except KeyboardInterrupt:
         pass
+
 
 if __name__ == '__main__':
     main()

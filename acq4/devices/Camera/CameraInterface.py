@@ -139,6 +139,8 @@ class CameraInterface(CameraModuleInterface):
             
             dev = Manager.getManager().getDevice(key['device'])
             dev.addKeyCallback(key['key'], self.hotkeyPressed, (action,))
+
+        self.imagingCtrl.sigStartVideoClicked.emit(None)
     
     def zmq_cap_image(self, img_type):
         self.imagingCtrl.zmq_img_type = img_type

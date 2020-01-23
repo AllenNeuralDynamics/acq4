@@ -37,7 +37,7 @@ class MIES(Qt.QObject):
         self.usingZMQ = useZMQ
         self.currentData = None
         self._exiting = False
-        self.windowName = 'ITC1600_Dev_0'
+        self.windowName = 'ITC18USB_Dev_0'
         self._sigFutureComplete.connect(self.processUpdate)
         self._initTPTime = None
         self._lastTPTime = None

@@ -95,6 +95,8 @@ class ImagingCtrl(Qt.QWidget):
         self.ui.pinFrameBtn.clicked.connect(self.pinFrameClicked)
         self.ui.clearPinnedFramesBtn.clicked.connect(self.clearPinnedFramesClicked)
 
+        Manager.getManager().zmq_worker.sigClearTileImages.connect(lambda: self.clearPinnedFrames())
+
     def addFrameButton(self, name):
         """Add a new button below the original "Acquire Frame" button.
 
@@ -289,7 +291,7 @@ class ImagingCtrl(Qt.QWidget):
         if Qt.QMessageBox.question(self, "Really?", "Clear all pinned frames?", Qt.QMessageBox.Ok | Qt.QMessageBox.Cancel) == Qt.QMessageBox.Ok:
             self.clearPinnedFrames()
 
-    def clearPinnedFrames(self):
+    def clearPinnedFrames(self): 
         for frame in self.pinnedFrames[:]:
             self.removePinnedFrame(frame)
 
