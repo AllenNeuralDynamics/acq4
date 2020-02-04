@@ -9,7 +9,7 @@ tempLog.txt
 acq4.egg-info
 !config/
 #config/*
-config/modules
+config/modules/*
 start_acq4.bat
 !config/example/
 crash.log

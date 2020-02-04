@@ -12,3 +12,4 @@ zmq
 falconoptics
 pyqt4
 mpeconfig_27==1.0.*
+mpegitversion
