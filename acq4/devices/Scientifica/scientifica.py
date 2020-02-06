@@ -277,7 +277,7 @@ class ScientificaMoveFuture(MoveFuture):
         # did we reach target?
         pos = self.dev._getPosition()
         dif = ((np.array(pos) - np.array(self.targetPos))**2).sum()**0.5
-        if dif < 2.5e-6:
+        if dif < 2.6e-6:
             # reached target
             self._finished = True
             return 1
