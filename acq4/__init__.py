@@ -4,10 +4,10 @@ import os, sys
 __version__ = 'local'
 
 # If we are running from a git repo, generate a more descriptive version number 
-from .util.gitversion import getGitVersion
+import mpegitversion
 
 try:
-    gitv = getGitVersion(os.path.join(os.path.dirname(__file__), '..'))
+    gitv = mpegitversion.get_git_version(os.path.join(os.path.dirname(__file__), '..'))
     if gitv is not None:
         __version__ = gitv
 except Exception:
