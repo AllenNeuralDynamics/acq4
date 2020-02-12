@@ -10,7 +10,9 @@ Messages handled include...
         capture_image ->
         get_z_depth ->
         set_link_btn_state ->
-        request_proc_status ->
+        set_surface_btn ->
+        clear_tile_images ->
+        request_proc_status_h ->  # not currently used
         
         Outgoing...
         <- config_loaded
@@ -91,7 +93,7 @@ class ZmqWorker(QThread):
         msg.x_size_um = x_size_um
         msg.y_size_um = y_size_um 
         self.io.write(msg)
-        print("~~~~ success!!!")
+        # print("~~~~ success!!!")
 
     @pyqtSlot(float)
     def z_depth(self, stage_depth):
@@ -112,7 +114,7 @@ class ZmqWorker(QThread):
         while self.sentinel:
             try:
                 message = self.io.receive()
-                print(message)
+                print(message)  # debug and verification
             except zmq.error.Again:
                 continue
 
