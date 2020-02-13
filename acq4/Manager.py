@@ -246,7 +246,11 @@ class Manager(Qt.QObject):
         """Read configuration file, create device objects, add devices to list"""
         print("============= Starting Manager configuration from %s =================" % configFile)
         logMsg("Starting Manager configuration from %s" % configFile)
-        cfg = configfile.readConfigFile(configFile)
+
+        cfg = configfile.readConfigFile(configFile)  # fr_config_load
+        import yaml
+        with open(r"C:/config_output.cfg", "w") as f:
+            yaml.dump(cfg, f)
             
         ## read modules, devices, and stylesheet out of config
         self.configure(cfg)
