@@ -19,7 +19,7 @@ from . import __version__
 
 import mpeconfig
 
-mpeconfig.source_configuration("acq4", version=__version__, fetch_logging_config=True)
+mpe_config_l = mpeconfig.source_configuration("acq4", version=__version__, fetch_logging_config=True)
 
 # Pull some args out
 if "--profile" in sys.argv:
@@ -59,7 +59,7 @@ from acq4.pyqtgraph.util.garbage_collector import GarbageCollector
 gc = GarbageCollector(interval=1.0, debug=False)
 
 ## Create Manager. This configures devices and creates the main manager window.
-man = Manager(argv=sys.argv[1:])
+man = Manager(argv=sys.argv[1:], mpe_config=mpe_config_l)
 
 # If example config was loaded, offer more help to the user.
 message = """\

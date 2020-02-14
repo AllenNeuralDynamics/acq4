@@ -72,12 +72,12 @@ class Manager(Qt.QObject):
     CREATED = False
     single = None
     
-    def __init__(self, configFile=None, argv=None):
+    def __init__(self, configFile=None, mpe_config=None, argv=None):
         self.lock = Mutex(recursive=True)  ## used for keeping some basic methods thread-safe
         self.devices = OrderedDict()  # all currently loaded devices
         self.modules = OrderedDict()  # all currently running modules
         self.definedModules = OrderedDict()  # all custom-defined module configurations
-        self.config = OrderedDict()
+        self.config = mpe_config if mpe_config else OrderedDict()
         self.currentDir = None
         self.baseDir = None
         self.gui = None
@@ -157,13 +157,15 @@ class Manager(Qt.QObject):
                     self.disableAllDevs = True
                 else:
                     print("Unhandled option", o, a)
-            
+
+            self.configure(self.config)
+
             ## Read in configuration file
-            if configFile is None:
-                configFile = self._getConfigFile()
-            
-            self.configDir = os.path.dirname(configFile)
-            self.readConfig(configFile)
+            # if configFile is None:
+            #     configFile = self._getConfigFile()
+            #
+            # self.configDir = os.path.dirname(configFile)
+            # self.readConfig(configFile)
             
             logMsg('ACQ4 version %s started.' % __version__, importance=9)
             
