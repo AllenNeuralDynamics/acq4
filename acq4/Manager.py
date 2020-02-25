@@ -72,12 +72,12 @@ class Manager(Qt.QObject):
     CREATED = False
     single = None
     
-    def __init__(self, configFile=None, argv=None):
+    def __init__(self, configFile=None, mpe_config=None, argv=None):
         self.lock = Mutex(recursive=True)  ## used for keeping some basic methods thread-safe
         self.devices = OrderedDict()  # all currently loaded devices
         self.modules = OrderedDict()  # all currently running modules
         self.definedModules = OrderedDict()  # all custom-defined module configurations
-        self.config = OrderedDict()
+        self.config = mpe_config if mpe_config else OrderedDict()
         self.currentDir = None
         self.baseDir = None
         self.gui = None
@@ -157,13 +157,17 @@ class Manager(Qt.QObject):
                     self.disableAllDevs = True
                 else:
                     print("Unhandled option", o, a)
-            
-            ## Read in configuration file
+
+            self.configure(self.config)
+
+            # Read in configuration file
             if configFile is None:
                 configFile = self._getConfigFile()
             
-            self.configDir = os.path.dirname(configFile)
-            self.readConfig(configFile)
+            # self.configDir = os.path.dirname(configFile)
+            self.configDir = "C:/Program Files/AIBS_MPE/acq4/config"  # dirty fix
+            # self.configDir = acq4.CONFIGPATH
+            # self.readConfig(configFile)
             
             logMsg('ACQ4 version %s started.' % __version__, importance=9)
             
@@ -246,7 +250,11 @@ class Manager(Qt.QObject):
         """Read configuration file, create device objects, add devices to list"""
         print("============= Starting Manager configuration from %s =================" % configFile)
         logMsg("Starting Manager configuration from %s" % configFile)
-        cfg = configfile.readConfigFile(configFile)
+
+        cfg = configfile.readConfigFile(configFile)  # fr_config_load
+        import yaml
+        with open(r"C:/config_output.cfg", "w") as f:
+            yaml.dump(cfg, f)
             
         ## read modules, devices, and stylesheet out of config
         self.configure(cfg)
@@ -407,6 +415,8 @@ class Manager(Qt.QObject):
         self.configure(cfg)
     
     def readConfigFile(self, fileName, missingOk=True):
+        if "Pipette" not in fileName:
+            return self.config
         with self.lock:
             fileName = self.configFileName(fileName)
             if os.path.isfile(fileName):
@@ -436,6 +446,7 @@ class Manager(Qt.QObject):
         
     def configFileName(self, name):
         with self.lock:
+            self.configDir = "C:/Program Files/AIBS_MPE/acq4/config"  # dirty fix
             return os.path.join(self.configDir, name)
     
     def loadDevice(self, devClassName, conf, name):
