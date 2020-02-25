@@ -19,7 +19,7 @@ from . import __version__
 
 import mpeconfig
 
-mpe_config_l = mpeconfig.source_configuration("acq4", version=__version__, fetch_logging_config=True)
+mpe_config_l = mpeconfig.source_configuration("acq4_test", version=__version__, fetch_logging_config=True)
 
 # Pull some args out
 if "--profile" in sys.argv:
@@ -68,12 +68,13 @@ ACQ4 is running from an example configuration file at:<br><pre>%s</pre><br>\
 This configuration defines several simulated devices that allow you to test the capabilities of ACQ4.<br>\
 See the <a href="http://acq4.org/documentation/userGuide/configuration.html">ACQ4 documentation</a> \
 for more information.</center>
-""" % man.configFile
-if man.configFile.endswith(os.path.join('example', 'default.cfg')):
-    mbox = Qt.QMessageBox()
-    mbox.setText(message)
-    mbox.setStandardButtons(mbox.Ok)
-    mbox.exec_()
+""" 
+# % man.configFile
+# if man.configFile.endswith(os.path.join('example', 'default.cfg')):
+#     mbox = Qt.QMessageBox()
+#     mbox.setText(message)
+#     mbox.setStandardButtons(mbox.Ok)
+#     mbox.exec_()
 
 
 ## Run python code periodically to allow interactive debuggers to interrupt the qt event loop

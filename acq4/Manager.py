@@ -160,11 +160,13 @@ class Manager(Qt.QObject):
 
             self.configure(self.config)
 
-            ## Read in configuration file
-            # if configFile is None:
-            #     configFile = self._getConfigFile()
-            #
+            # Read in configuration file
+            if configFile is None:
+                configFile = self._getConfigFile()
+            
             # self.configDir = os.path.dirname(configFile)
+            self.configDir = "C:/Program Files/AIBS_MPE/acq4/config"  # dirty fix
+            # self.configDir = acq4.CONFIGPATH
             # self.readConfig(configFile)
             
             logMsg('ACQ4 version %s started.' % __version__, importance=9)
@@ -413,6 +415,8 @@ class Manager(Qt.QObject):
         self.configure(cfg)
     
     def readConfigFile(self, fileName, missingOk=True):
+        if "Pipette" not in fileName:
+            return self.config
         with self.lock:
             fileName = self.configFileName(fileName)
             if os.path.isfile(fileName):
@@ -442,6 +446,7 @@ class Manager(Qt.QObject):
         
     def configFileName(self, name):
         with self.lock:
+            self.configDir = "C:/Program Files/AIBS_MPE/acq4/config"  # dirty fix
             return os.path.join(self.configDir, name)
     
     def loadDevice(self, devClassName, conf, name):
