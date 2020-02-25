@@ -19,7 +19,7 @@ from . import __version__
 
 import mpeconfig
 
-mpe_config_l = mpeconfig.source_configuration("acq4_test", version=__version__, fetch_logging_config=True)
+mpe_config_l = mpeconfig.source_configuration("acq4", version=__version__, fetch_logging_config=True)
 
 # Pull some args out
 if "--profile" in sys.argv:
