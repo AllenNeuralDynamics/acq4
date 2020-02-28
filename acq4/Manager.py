@@ -221,7 +221,12 @@ class Manager(Qt.QObject):
         self.abortShortcut.activated.connect(self.sigAbortAll)
         self.reloadShortcut.activated.connect(self.reloadAll)
 
-        data_directory = "C:/Users/svc_mpe/Desktop/junk_data/"  # strictly debug, change to config now!
+        data_directory = self.config["save_directory"]
+        try:
+            os.makedirs(data_directory)
+        except Exception as e:
+            pass
+
         dh = DataManager.getDirHandle(os.path.dirname(data_directory))
         self.setBaseDir(dh)
         self.setCurrentDir(dh)
@@ -415,7 +420,7 @@ class Manager(Qt.QObject):
         self.configure(cfg)
     
     def readConfigFile(self, fileName, missingOk=True):
-        if "Pipette" not in fileName:
+        if "Pipette" not in fileName and "_ui" not in fileName:
             return self.config
         with self.lock:
             fileName = self.configFileName(fileName)
