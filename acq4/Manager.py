@@ -158,6 +158,8 @@ class Manager(Qt.QObject):
                 else:
                     print("Unhandled option", o, a)
 
+            self.configDir = "C:/Program Files/AIBS_MPE/acq4/config"  # dirty fix
+            
             self.configure(self.config)
 
             # Read in configuration file
