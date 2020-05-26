@@ -45,3 +45,8 @@ message set_surface_btn {
 message clear_tile_images {
     required message_header header = 1;
 }
+
+message load_tile_image {
+    required message_header header = 1;
+    required string image_path = 2;
+}
