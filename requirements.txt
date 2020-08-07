@@ -11,5 +11,5 @@ faulthandler
 zmq 
 falconoptics
 pyqt4
-mpeconfig_27==1.0.*
+mpeconfig_27>=1.2.2
 mpegitversion
