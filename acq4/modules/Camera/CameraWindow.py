@@ -240,7 +240,7 @@ class CameraWindow(Qt.QMainWindow):
             'geometry': [geom.x(), geom.y(), geom.width(), geom.height()],
             'docks': self.cw.saveState()
         }
-        Manager.getManager().writeConfigFile(uiState, self.stateFile)
+        # Manager.getManager().writeConfigFile(uiState, self.stateFile)
         
         for iface in self.interfaces.values():
             iface.quit()

@@ -13,3 +13,5 @@ config/modules/*
 start_acq4.bat
 !config/example/
 crash.log
+.idea
+.vscode
