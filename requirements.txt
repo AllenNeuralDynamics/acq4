@@ -9,7 +9,7 @@ pywin32==225
 futures==3.3.0 
 faulthandler 
 zmq 
-falconoptics
+falconoptics==0.1.4
 pyqt4
 mpeconfig_27>=1.2.2
 mpegitversion

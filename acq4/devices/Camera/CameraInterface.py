@@ -14,6 +14,7 @@ import acq4.Manager as Manager
 from .CameraInterfaceTemplate import Ui_Form as CameraInterfaceTemplate
 from acq4.devices.OptomechDevice import DeviceTreeItemGroup
 from acq4.util.imaging import ImagingCtrl
+from acq4.util.imaging.frame import Frame
 from acq4.modules.Camera import CameraModuleInterface
 
 
@@ -50,6 +51,7 @@ class CameraInterface(CameraModuleInterface):
 
         Manager.getManager().zmq_worker.sigSetLinkBtnState.connect(lambda x: self.imagingCtrl.ui.linkSavePinBtn.setChecked(x))
         Manager.getManager().zmq_worker.sigCaptureImage.connect(self.zmq_cap_image)
+        Manager.getManager().zmq_worker.sigLoadTileImage.connect(self.zmq_load_tile_image)
         self.imagingCtrl.sigZmqFrameAcq.connect(Manager.getManager().zmq_worker.image_captured)
 
         ## Move control panels into docks
@@ -146,6 +148,12 @@ class CameraInterface(CameraModuleInterface):
         self.imagingCtrl.zmq_img_type = img_type
         if img_type != "tile_image":
             self.imagingCtrl.recordThread.saveFrame()
+
+    def zmq_load_tile_image(self, img_path):
+        fh = Manager.getManager().fileHandle(img_path)
+        frame = Frame(fh.read(), fh.info())
+        self.newFrame(frame)
+        self.imagingCtrl.addPinnedFrame()
 
     def newFrame(self, frame):
         self.imagingCtrl.newFrame(frame)
