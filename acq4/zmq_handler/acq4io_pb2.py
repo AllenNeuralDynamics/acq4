@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto2',
   serialized_options=None,
-  serialized_pb=b'\n\x0c\x61\x63q4io.proto\x1a\x15\x61ibsmw_messages.proto\"A\n\rconfig_loaded\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x0f\n\x07version\x18\x02 \x02(\t\"D\n\rcapture_image\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x12\n\nimage_type\x18\x02 \x02(\t\"\xce\x01\n\x0eimage_captured\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x12\n\nimage_type\x18\x02 \x02(\t\x12\x12\n\nimage_path\x18\x03 \x02(\t\x12\x12\n\nx_stage_um\x18\x04 \x02(\x02\x12\x12\n\ny_stage_um\x18\x05 \x02(\x02\x12\x12\n\nz_stage_um\x18\x06 \x02(\x02\x12\x11\n\ttimestamp\x18\x07 \x02(\t\x12\x11\n\tx_size_um\x18\x08 \x02(\x02\x12\x11\n\ty_size_um\x18\t \x02(\x02\".\n\x0bget_z_depth\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\">\n\x07z_depth\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x12\n\nz_stage_um\x18\x02 \x02(\x02\"F\n\x12set_link_btn_state\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x0f\n\x07\x63hecked\x18\x02 \x02(\x08\"C\n\x0fset_surface_btn\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x0f\n\x07\x65nabled\x18\x02 \x02(\x08\"4\n\x11\x63lear_tile_images\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header'
+  serialized_pb=b'\n\x0c\x61\x63q4io.proto\x1a\x15\x61ibsmw_messages.proto\"A\n\rconfig_loaded\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x0f\n\x07version\x18\x02 \x02(\t\"D\n\rcapture_image\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x12\n\nimage_type\x18\x02 \x02(\t\"\xd6\x01\n\x0eimage_captured\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x12\n\nimage_type\x18\x02 \x02(\t\x12\x12\n\nimage_path\x18\x03 \x02(\t\x12\x0f\n\x07x_stage\x18\x04 \x02(\x02\x12\x0f\n\x07y_stage\x18\x05 \x02(\x02\x12\x0f\n\x07z_stage\x18\x06 \x02(\x02\x12\x11\n\ttimestamp\x18\x07 \x02(\t\x12\x0e\n\x06x_size\x18\x08 \x02(\x02\x12\x0e\n\x06y_size\x18\t \x02(\x02\x12\x15\n\rworking_units\x18\n \x02(\t\".\n\x0bget_z_depth\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\"R\n\x07z_depth\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x0f\n\x07z_stage\x18\x02 \x02(\x02\x12\x15\n\rworking_units\x18\x03 \x02(\t\"F\n\x12set_link_btn_state\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x0f\n\x07\x63hecked\x18\x02 \x02(\x08\"C\n\x0fset_surface_btn\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x0f\n\x07\x65nabled\x18\x02 \x02(\x08\"4\n\x11\x63lear_tile_images\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\"E\n\x10load_tiled_image\x12\x1f\n\x06header\x18\x01 \x02(\x0b\x32\x0f.message_header\x12\x10\n\x08img_path\x18\x02 \x02(\t'
   ,
   dependencies=[aibsmw__messages__pb2.DESCRIPTOR,])
 
@@ -131,21 +131,21 @@ _IMAGE_CAPTURED = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='x_stage_um', full_name='image_captured.x_stage_um', index=3,
+      name='x_stage', full_name='image_captured.x_stage', index=3,
       number=4, type=2, cpp_type=6, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='y_stage_um', full_name='image_captured.y_stage_um', index=4,
+      name='y_stage', full_name='image_captured.y_stage', index=4,
       number=5, type=2, cpp_type=6, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='z_stage_um', full_name='image_captured.z_stage_um', index=5,
+      name='z_stage', full_name='image_captured.z_stage', index=5,
       number=6, type=2, cpp_type=6, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -159,16 +159,23 @@ _IMAGE_CAPTURED = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='x_size_um', full_name='image_captured.x_size_um', index=7,
+      name='x_size', full_name='image_captured.x_size', index=7,
       number=8, type=2, cpp_type=6, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='y_size_um', full_name='image_captured.y_size_um', index=8,
+      name='y_size', full_name='image_captured.y_size', index=8,
       number=9, type=2, cpp_type=6, label=2,
       has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='working_units', full_name='image_captured.working_units', index=9,
+      number=10, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -185,7 +192,7 @@ _IMAGE_CAPTURED = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=177,
-  serialized_end=383,
+  serialized_end=391,
 )
 
 
@@ -215,8 +222,8 @@ _GET_Z_DEPTH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=385,
-  serialized_end=431,
+  serialized_start=393,
+  serialized_end=439,
 )
 
 
@@ -235,9 +242,16 @@ _Z_DEPTH = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='z_stage_um', full_name='z_depth.z_stage_um', index=1,
+      name='z_stage', full_name='z_depth.z_stage', index=1,
       number=2, type=2, cpp_type=6, label=2,
       has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='working_units', full_name='z_depth.working_units', index=2,
+      number=3, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -253,8 +267,8 @@ _Z_DEPTH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=433,
-  serialized_end=495,
+  serialized_start=441,
+  serialized_end=523,
 )
 
 
@@ -291,8 +305,8 @@ _SET_LINK_BTN_STATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=497,
-  serialized_end=567,
+  serialized_start=525,
+  serialized_end=595,
 )
 
 
@@ -329,8 +343,8 @@ _SET_SURFACE_BTN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=569,
-  serialized_end=636,
+  serialized_start=597,
+  serialized_end=664,
 )
 
 
@@ -360,8 +374,46 @@ _CLEAR_TILE_IMAGES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=638,
-  serialized_end=690,
+  serialized_start=666,
+  serialized_end=718,
+)
+
+
+_LOAD_TILED_IMAGE = _descriptor.Descriptor(
+  name='load_tiled_image',
+  full_name='load_tiled_image',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='header', full_name='load_tiled_image.header', index=0,
+      number=1, type=11, cpp_type=10, label=2,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='img_path', full_name='load_tiled_image.img_path', index=1,
+      number=2, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=720,
+  serialized_end=789,
 )
 
 _CONFIG_LOADED.fields_by_name['header'].message_type = aibsmw__messages__pb2._MESSAGE_HEADER
@@ -372,6 +424,7 @@ _Z_DEPTH.fields_by_name['header'].message_type = aibsmw__messages__pb2._MESSAGE_
 _SET_LINK_BTN_STATE.fields_by_name['header'].message_type = aibsmw__messages__pb2._MESSAGE_HEADER
 _SET_SURFACE_BTN.fields_by_name['header'].message_type = aibsmw__messages__pb2._MESSAGE_HEADER
 _CLEAR_TILE_IMAGES.fields_by_name['header'].message_type = aibsmw__messages__pb2._MESSAGE_HEADER
+_LOAD_TILED_IMAGE.fields_by_name['header'].message_type = aibsmw__messages__pb2._MESSAGE_HEADER
 DESCRIPTOR.message_types_by_name['config_loaded'] = _CONFIG_LOADED
 DESCRIPTOR.message_types_by_name['capture_image'] = _CAPTURE_IMAGE
 DESCRIPTOR.message_types_by_name['image_captured'] = _IMAGE_CAPTURED
@@ -380,6 +433,7 @@ DESCRIPTOR.message_types_by_name['z_depth'] = _Z_DEPTH
 DESCRIPTOR.message_types_by_name['set_link_btn_state'] = _SET_LINK_BTN_STATE
 DESCRIPTOR.message_types_by_name['set_surface_btn'] = _SET_SURFACE_BTN
 DESCRIPTOR.message_types_by_name['clear_tile_images'] = _CLEAR_TILE_IMAGES
+DESCRIPTOR.message_types_by_name['load_tiled_image'] = _LOAD_TILED_IMAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 config_loaded = _reflection.GeneratedProtocolMessageType('config_loaded', (_message.Message,), {
@@ -437,6 +491,13 @@ clear_tile_images = _reflection.GeneratedProtocolMessageType('clear_tile_images'
   # @@protoc_insertion_point(class_scope:clear_tile_images)
   })
 _sym_db.RegisterMessage(clear_tile_images)
+
+load_tiled_image = _reflection.GeneratedProtocolMessageType('load_tiled_image', (_message.Message,), {
+  'DESCRIPTOR' : _LOAD_TILED_IMAGE,
+  '__module__' : 'acq4io_pb2'
+  # @@protoc_insertion_point(class_scope:load_tiled_image)
+  })
+_sym_db.RegisterMessage(load_tiled_image)
 
 
 # @@protoc_insertion_point(module_scope)

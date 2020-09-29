@@ -11,6 +11,9 @@ Messages handled include...
         get_z_depth ->
         set_link_btn_state ->
         request_proc_status ->
+        set_surface_btn ->
+        clear_tile_images ->
+        load_tiled_image ->
         
         Outgoing...
         <- config_loaded
@@ -35,6 +38,7 @@ class ZmqWorker(QThread):
     sigRequestProcStatus = pyqtSignal()
     sigSetSurfaceBtnEnable = pyqtSignal(bool)
     sigClearTileImages = pyqtSignal()
+    sigLoadTileImage = pyqtSignal(str)
 
     def __init__(self):
         super(QThread, self).__init__()
@@ -50,6 +54,7 @@ class ZmqWorker(QThread):
         self.io.register_for_message("request_proc_status", self.request_proc_status_h)
         self.io.register_for_message("set_surface_btn", self.set_surface_btn_h)
         self.io.register_for_message("clear_tile_images", self.clear_tile_images_h)
+        self.io.register_for_message("load_tiled_image", self.load_tiled_image_h)
 
     # incoming messages
     def capture_image_h(self, message_id, message, timestamp, io):
@@ -70,6 +75,10 @@ class ZmqWorker(QThread):
     def clear_tile_images_h(self, message_id, message, timestamp, io):
         self.sigClearTileImages.emit()
 
+    def load_tiled_image_h(self, message_id, message, timestamp, io):
+        self.sigLoadTileImage.emit(message.img_path)
+    
+
     # outgoing messages
     @pyqtSlot(str)
     def config_loaded(self, version): 
@@ -79,25 +88,26 @@ class ZmqWorker(QThread):
         self.io.write(msg)
 
     @pyqtSlot(str, str, float, float, float, str, float, float)
-    def image_captured(self, image_type, image_path, x_stage_um, y_stage_um, z_stage_um, timestamp, x_size_um, y_size_um):
+    def image_captured(self, image_type, image_path, x_stage, y_stage, z_stage, timestamp, x_size, y_size):
         # occurs when the image is captured
         msg = acq4io.image_captured()
         msg.image_type = image_type
         msg.image_path = image_path
-        msg.x_stage_um = x_stage_um
-        msg.y_stage_um = y_stage_um
-        msg.z_stage_um = z_stage_um
+        msg.x_stage = x_stage * 1000000.0
+        msg.y_stage = y_stage * 1000000.0
+        msg.z_stage = z_stage * 1000000.0
         msg.timestamp = timestamp
-        msg.x_size_um = x_size_um
-        msg.y_size_um = y_size_um 
+        msg.x_size = x_size * 1000000.0
+        msg.y_size = y_size * 1000000.0
+        msg.working_units = "um"
         self.io.write(msg)
-        print("~~~~ success!!!")
 
     @pyqtSlot(float)
     def z_depth(self, stage_depth):
         # occurs at two places in workflow
         msg = acq4io.z_depth()
-        msg.z_stage_um = stage_depth
+        msg.z_stage = stage_depth * 1000000.0
+        msg.working_units = "um"
         self.io.write(msg)
 
     @pyqtSlot(int, str)
@@ -115,6 +125,16 @@ class ZmqWorker(QThread):
                 print(message)
             except zmq.error.Again:
                 continue
+
+# TMP Notes on new message
+
+# from acq4.util.imaging.frame import Frame 
+# cm = man.getModule('Camera') 
+# cif = cm.window().interfaces['Camera'] 
+# fh = man.fileHandle('path\\to\\file.tif')
+# frame = Frame(fh.read(), fh.info())
+# cif.newFrame(frame) 
+# cif.imagingCtrl.addPinnedFrame()
 
 # ==Usage==
 
