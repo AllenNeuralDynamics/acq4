@@ -15,12 +15,13 @@ message image_captured {
     required message_header header = 1;
     required string image_type = 2;
     required string image_path = 3;
-    required float x_stage_um = 4;
-    required float y_stage_um = 5;
-    required float z_stage_um = 6;
+    required float x_stage = 4;
+    required float y_stage = 5;
+    required float z_stage = 6;
     required string timestamp = 7;
-    required float x_size_um = 8;
-    required float y_size_um = 9;
+    required float x_size = 8;
+    required float y_size = 9;
+    required string working_units = 10;
 }
 
 message get_z_depth {
@@ -29,7 +30,8 @@ message get_z_depth {
 
 message z_depth {
    required message_header header = 1;
-   required float z_stage_um = 2;
+   required float z_stage = 2;
+   required string working_units = 3;
 }
 
 message set_link_btn_state {
@@ -44,4 +46,9 @@ message set_surface_btn {
 
 message clear_tile_images {
     required message_header header = 1;
+}
+
+message load_tiled_image {
+    required message_header header = 1;
+    required string img_path = 2;
 }
