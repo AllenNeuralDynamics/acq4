@@ -302,11 +302,14 @@ class ImagingCtrl(Qt.QWidget):
         else:            
             self.ui.saveFrameBtn.success("Saved.")
 
+            dto = datetime.datetime.now().utcnow()
+            dto = dto.replace(microsecond=50000)  # fix for super rare zero microsecond issue
+
             self.sigZmqFrameAcq.emit(self.zmq_img_type, file, 
                 Manager.getManager().getDevice("Microscope").focusDevice().globalPosition()[0],
                 Manager.getManager().getDevice("Microscope").focusDevice().globalPosition()[1], 
                 Manager.getManager().getDevice("Microscope").focusDevice().globalPosition()[2], 
-                datetime.datetime.now().utcnow().isoformat() + "+00:00", 22.0, 23.0)
+                dto.isoformat() + "+00:00", 22.0, 23.0)
 
             print(Manager.getManager().getDevice("Microscope").focusDevice().globalPosition())
 
