@@ -1,15 +1,15 @@
 numpy==1.16.4
-six 
+six==1.15.0
 scipy==1.2.2 
 pillow==6.1.0 
-protobuf == 3.11.*
+protobuf==3.11.3
 pyparsing==2.0.3 
 pyserial==3.4 
 pywin32==225 
 futures==3.3.0 
-faulthandler 
-zmq 
+faulthandler==3.2
+pyzmq==18.1.0
 falconoptics==0.1.5
-pyqt4
+pyqt4==4.11.4
 mpeconfig_27>=1.2.2
-mpegitversion
+mpegitversion==0.1.3
