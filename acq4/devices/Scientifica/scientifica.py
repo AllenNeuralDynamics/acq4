@@ -316,6 +316,10 @@ class ScientificaGUI(StageInterface):
         self.layout.addWidget(self.zeroBtn, self.nextRow, 0, 1, 2)
         self.nextRow += 1
 
+        self.toggleDirectionBtn = Qt.QPushButton('Toggle Direction')
+        self.layout.addWidget(self.toggleDirectionBtn, self.nextRow, 0, 1, 2)
+        self.nextRow += 1
+
         self.psGroup = Qt.QGroupBox('Rotary Controller')
         self.layout.addWidget(self.psGroup, self.nextRow, 0, 1, 2)
         self.nextRow += 1
@@ -329,4 +333,5 @@ class ScientificaGUI(StageInterface):
 
         self.zeroBtn.clicked.connect(self.dev.dev.zeroPosition)
         self.speedSpin.valueChanged.connect(lambda v: self.dev.setDefaultSpeed(v))
+        self.toggleDirectionBtn.clicked.connect(self.dev.dev.toggleDirection)
 

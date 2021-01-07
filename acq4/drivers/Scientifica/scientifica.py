@@ -429,6 +429,13 @@ class Scientifica(SerialDevice):
         """
         self.send('ZERO')
 
+    def toggleDirection(self):
+        """Toggle direction of movement joyDirectionX,Y,Z (hotfix for Katie)
+        """
+        self.setParam("joyDirectionX", not self.getParam("joyDirectionX"))
+        self.setParam("joyDirectionY", not self.getParam("joyDirectionY"))
+        self.setParam("joyDirectionZ", not self.getParam("joyDirectionZ"))
+
     def getCurrents(self):
         """Return a tuple of the (run, standby) current values.
         """
