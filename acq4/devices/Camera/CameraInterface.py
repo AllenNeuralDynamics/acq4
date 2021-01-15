@@ -152,8 +152,8 @@ class CameraInterface(CameraModuleInterface):
     def zmq_load_tile_image(self, img_path):
         fh = Manager.getManager().fileHandle(img_path)
         frame = Frame(fh.read(), fh.info())
-        self.newFrame(frame)
-        self.imagingCtrl.addPinnedFrame()
+        # self.newFrame(frame)
+        self.imagingCtrl.addPinnedFrame(frame)
 
     def newFrame(self, frame):
         self.imagingCtrl.newFrame(frame)
