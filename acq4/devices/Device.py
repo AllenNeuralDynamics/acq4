@@ -60,19 +60,19 @@ class Device(Qt.QObject, InterfaceMixin):
     def readConfigFile(self, filename):
         """Read a config file from this device's configuration directory.
         """
-        fileName = os.path.join(self.configPath(), filename)
+        fileName = os.path.join("C:\\ProgramData\\AIBS_MPE\\acq4\\calibrations", self.configPath(), filename)
         return self.dm.readConfigFile(fileName)
 
     def writeConfigFile(self, data, filename):
         """Write data to a config file in this device's configuration directory.
         """
-        fileName = os.path.join(self.configPath(), filename)
+        fileName = os.path.join("C:\\ProgramData\\AIBS_MPE\\acq4\\calibrations", self.configPath(), filename)
         return self.dm.writeConfigFile(data, fileName)
 
     def appendConfigFile(self, data, filename):
         """Append data to a config file in this device's configuration directory.
         """
-        fileName = os.path.join(self.configPath(), filename)
+        fileName = os.path.join("C:\\ProgramData\\AIBS_MPE\\acq4\\calibrations", self.configPath(), filename)
         return self.dm.appendConfigFile(data, fileName)
 
     def reserve(self, block=True, timeout=20):

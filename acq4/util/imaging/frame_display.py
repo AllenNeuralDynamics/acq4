@@ -46,8 +46,8 @@ class FrameDisplay(Qt.QObject):
         #Qt.QTimer.singleShot(1, self.drawFrame)
         ## avoiding possible singleShot-induced crashes
 
-    def newFrame(self, frame):
-        self.currentFrame = frame
+    # def newFrame(self, frame):
+    #     self.currentFrame = frame
 
     def updateFrame(self):
         """Redisplay the current frame.
