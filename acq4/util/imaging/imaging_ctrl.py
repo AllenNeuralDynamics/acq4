@@ -259,10 +259,13 @@ class ImagingCtrl(Qt.QWidget):
             self.recordThread.saveFrame()
         self.addPinnedFrame()
 
-    def addPinnedFrame(self):
+    def addPinnedFrame(self, frame=None):
         """Make a copy of the current camera frame and pin it to the view background"""
 
-        data = self.frameDisplay.visibleImage()
+        if frame is None:
+            frame = self.frameDisplay.currentframe
+        data = frame.getImage()
+
         if data is None:
             return
 
@@ -279,7 +282,7 @@ class ImagingCtrl(Qt.QWidget):
         view = self.frameDisplay.imageItem().getViewBox()
         if view is not None:
             view.addItem(im)
-        im.setTransform(self.frameDisplay.currentFrame.globalTransform().as2D())
+        im.setTransform(frame.globalTransform().as2D())
 
     def removePinnedFrame(self, fr):
         self.pinnedFrames.remove(fr)
