@@ -263,7 +263,7 @@ class ImagingCtrl(Qt.QWidget):
         """Make a copy of the current camera frame and pin it to the view background"""
 
         if frame is None:
-            frame = self.frameDisplay.currentframe
+            frame = self.frameDisplay.currentFrame
         data = frame.getImage()
 
         if data is None:
