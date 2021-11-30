@@ -33,7 +33,7 @@ class ZMQHandler(object):
         self.log = logging.getLogger(sys.argv[0])
         self.context = zmq.Context()
 
-        user = getpass.getuser().zfill(16)
+        user = getpass.getuser().zfill(16)[:16]
         uuid_key = codecs.encode(user.encode(), 'hex')
 
         self._router_port = port or uuid.UUID(uuid_key.decode()).int % 8976 + 1024
