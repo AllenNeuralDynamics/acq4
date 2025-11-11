@@ -1,6 +1,8 @@
 ACQ4
 ====
 
+**NOTE:** This was a fork of the offical acq4 project that Ben Sutton created. This was done to get it running with WseAdapter module that Ben created. The current neurophysiology rigs (owned by Tim Jarsky) no longer depend on this fork version so this should be deprecated. 
+
 Neurophysiology acquisition and analysis for Python
 
 <http://www.acq4.org>
@@ -61,5 +63,6 @@ python distribution plus a few extra packages.
 ```
 
 4. Run `python -m acq4` from the source directory, or install with `python setup.py install` and run using `acq4`.
+
 
 
